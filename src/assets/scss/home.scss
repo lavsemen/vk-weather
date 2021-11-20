@@ -1,27 +1,14 @@
 .home {
-  background: url("../assets/home-bg.gif");
-  height: 100vh;
-  position: relative;
-  z-index: 0;
-  &::after {
-    content: "";
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: rgba(#000, 0.3);
-    z-index: 0;
-  }
   &__content {
-    padding-top: 50px;
+    margin-top: 20px;
     position: relative;
     z-index: 1;
     display: flex;
     align-items: center;
     flex-direction: column;
     width: 100%;
+    opacity: 0;
+    animation: show-content-animation 1s ease-in-out 0s forwards;
   }
   &__search {
     width: 100%;
@@ -136,5 +123,18 @@
   }
   100% {
     transform: scale(1);
+  }
+}
+@keyframes show-content-animation {
+  0% {
+    transform: translateY(1000px);
+    opacity: 0;
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

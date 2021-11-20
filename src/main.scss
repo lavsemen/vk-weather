@@ -1,3 +1,4 @@
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;1,500;1,600&display=swap');
 *,
 *::before,
@@ -79,6 +80,24 @@ select {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+.app {
+  background: url("./assets/home-bg.gif");
+  height: 100vh;
+  position: relative;
+  z-index: 0;
+  &::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(#000, 0.3);
+    z-index: -1;
   }
 }
 
