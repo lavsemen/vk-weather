@@ -2,8 +2,8 @@
   <div class="home">
     <div class="home__content">
       <home-search
-        @voiceInput="voiceInput"
-        @fetchWether="fetchWeather"
+        @action="updateWather"
+        @voiceAction = "voiceUpdate"
         :search-input="searchInput"
         :voice-active="voiceActive"
       />
@@ -28,7 +28,7 @@ import { reactive, ref, toRefs, computed, onMounted } from "vue";
 import { API_KEY } from "@/API/WeatherApi";
 import axios from "axios";
 import HomeInfo from "@/components/Home/HomeInfo.vue";
-import HomeSearch from '../components/Home/HomeSearch.vue';
+import HomeSearch from '@/components/Home/HomeSearch.vue';
 
 export default {
   components: { HomeInfo, HomeSearch },
@@ -51,7 +51,7 @@ export default {
             cityNotValid.value = false;
             return;
           }
-          console.log(res.data);
+         
           cityInfo.name = res.data.name;
           cityInfo.country = res.data.sys.country;
           cityInfo.temp = Math.round(res.data.main.temp);
@@ -63,37 +63,26 @@ export default {
       }
     };
 
-    const voiceInput = (event) => {
-      const SpeechRecognition =
-        window.SpeechRecognition || window.webkitSpeechRecognition;
-      const SpeechGrammarList =
-        window.SpeechGrammarList || window.webkitSpeechGrammarList;
-      const SpeechRecognitionEvent =
-        window.SpeechRecognitionEvent || window.webkitSpeechRecognitionEvent;
+    const voiceUpdate = (params) => {
+      voiceActive.value = params.voiceActive
+      searchInput.value = params.searchInput
+       fetchWeather();
+    }
 
-      const recognition = new SpeechRecognition();
-      recognition.start();
-
-      recognition.onaudiostart = () => {
-        voiceActive.value = true
-      };
-      recognition.onresult = async (e) => {
-        voiceActive.value = false
-        searchInput.value = await e.results[0][0].transcript;
-        fetchWeather();
-      };
-
-    
-    };
+    const updateWather = (value) => {
+      searchInput.value = value
+      fetchWeather()
+    }
 
     return {
+      updateWather,
       searchInput,
+      voiceUpdate,
       cityInfo,
       cityValid,
       date,
       fetchWeather,
       voiceActive,
-      voiceInput,
     };
   },
 };

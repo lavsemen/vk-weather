@@ -28,6 +28,19 @@
     display: flex;
     padding: 0 20px;
     justify-content: center;
+    &-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      margin-left: 20px;
+      border: 1px solid rgb(255, 255, 255);
+      cursor: pointer;
+      background: rgb(47, 147, 194);
+      border-radius: 5px;
+      cursor: pointer;
+    }
     input {
       background: rgba(#fff, 0.7);
       border-radius: 8px 0 8px 0;
