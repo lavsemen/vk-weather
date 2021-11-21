@@ -1,15 +1,21 @@
 <template>
   <div class="app">
-    <div class="container">
-        <app-navbar/>
-        <router-view/>
-    </div>
+    <app-navbar />
+    <router-view />
   </div>
 </template>
 <script>
-import AppNavbar from './components/App/AppNavbar.vue'
+import AppNavbar from "./components/App/AppNavbar.vue"
+import { onMounted } from 'vue'
+import { axios } from 'axios'
+import store from '@/store'
 export default {
-  name: 'App',
-  components: { AppNavbar }
-}
+  name: "App",
+  components: { AppNavbar },
+  setup() {
+    onMounted(() => {
+      store.dispatch('userIsAuth');
+    })
+  }
+};
 </script>

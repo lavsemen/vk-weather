@@ -1,6 +1,6 @@
 <template>
-  <div class="div" style="color: black">
-    test
+  <div class="game">
+    
   </div>
 </template>
 

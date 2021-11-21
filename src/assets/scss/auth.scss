@@ -1,0 +1,47 @@
+.auth {
+  margin-top: 20px;
+  &__content {
+    width: 100%;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 16px;
+  }
+  &__title {
+    color: #000;
+    font-size: 24px;
+    text-align: center;
+    & + * {
+      margin-top: 10px;
+    }
+  }
+  &__error {
+    color: rgb(204, 66, 66);
+    font-size: 12px;
+    display: block
+  }
+  &__field {
+    width: 100%;
+    input:not([type="checkbox"]) {
+      width: 100%;
+      border: 0;
+      color: #000;
+      min-height: 40px;
+      border-bottom: 1px solid #ccc; 
+      background: transparent;
+      &:focus {
+        outline: none;
+        border: none;
+        border-bottom: 1px solid #ccc;
+      }
+    }
+    & + * {
+        margin-top: 20px;
+    }
+  }
+  &__info {
+    color: #000;
+  }
+  &__policy {
+    color: #000;
+  }
+}
