@@ -32,13 +32,16 @@ import { ref } from 'vue'
 import {GET_USER} from '@/API/firebaseApi'
 import axios from 'axios'
 import store from "@/store";
-import router from '@/router'
+import { useRoute, useRouter } from 'vue-router'
 
 export default {
   setup() {
     const login = ref('')
     const password = ref('')
-    const isValid = ref(true);
+    const isValid = ref(true)
+    const router = useRouter()
+    const route = useRoute()
+    
     
 
     const validateForm = () => {
@@ -56,10 +59,15 @@ export default {
       if (validateForm()) {
         try {
           const user  = await axios.get(GET_USER + login.value + '.json');
-          console.log(user.data.login === login.value && user.data.password === password.value);
+          
           if (user.data.login === login.value && user.data.password === password.value) {
             store.commit("setUser", user.data.username);
-            router.push('/')
+            if (route.query.page) {
+              router.push(`/${route.query.page}`)
+            } else {
+              router.push('/')
+            }
+
           } else {
             isValid = false
           }

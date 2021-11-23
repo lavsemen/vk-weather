@@ -3,6 +3,9 @@
     <div class="container">
       <form @submit.prevent="submitHandler" class="auth__content">
         <h2 class="auth__title">Регистрация</h2>
+        <div class="auth__field" v-if="isUserExist">
+          <div class="auth__error">Пользователь существует</div>
+        </div>
         <div class="auth__field">
           <input
             type="text"
@@ -67,14 +70,17 @@
 import { reactive, ref } from "vue";
 import axios from "axios";
 import store from "@/store";
-import router from '@/router'
-import { URL_USERS } from "@/API/firebaseApi";
+import { useRouter, useRoute } from "vue-router";
+import { URL_USERS, GET_USER } from "@/API/firebaseApi";
 export default {
   setup(props, context) {
+    const router = useRouter();
+    const route = useRoute();
     const username = ref("");
     const login = ref("");
     const password = ref("");
     const agree = ref(false);
+    const isUserExist = ref(false);
     const isValid = reactive({
       username: true,
       login: true,
@@ -99,6 +105,19 @@ export default {
       return true;
     };
 
+    const checkUserInDataBase = async () => {
+      try {
+        const getUser = await axios.get(GET_USER + login.value + ".json");
+        if (getUser.data) {
+          isUserExist.value = true;
+        } else {
+          isUserExist.value = false;
+        }
+      } catch (err) {
+        isUserExist.value = true;
+      }
+    };
+
     const submitHandler = async (e) => {
       if (validateForm()) {
         const formData = {
@@ -107,14 +126,20 @@ export default {
           password: password.value,
         };
 
-        try {
-          const sendData = await axios.patch(URL_USERS, {
-            [login.value]: formData,
-          });
-          store.commit("setUser", username.value);
-          router.push('/')
-        } catch (err) {
-          console.log(err);
+        await checkUserInDataBase();
+
+        if (!isUserExist.value) {
+          try {
+            const sendData = await axios.patch(URL_USERS, {
+              [login.value]: formData,
+            });
+            store.commit("setUser", username.value);
+            if (route.query.page) {
+              router.push(`/${route.query.page}`);
+            } else {
+              router.push("/");
+            }
+          } catch (err) {}
         }
       }
     };
@@ -125,6 +150,7 @@ export default {
       isValid,
       login,
       password,
+      isUserExist,
       agree,
     };
   },

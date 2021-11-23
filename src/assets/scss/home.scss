@@ -8,7 +8,7 @@
     flex-direction: column;
     width: 100%;
     opacity: 0;
-    animation: show-content-animation 1s ease-in-out 0s forwards;
+    animation: show-content-animation .6s ease-in-out 0s forwards;
   }
   &__search {
     width: 100%;
@@ -125,7 +125,7 @@
 }
 @keyframes show-content-animation {
   0% {
-    transform: translateY(1000px);
+    transform: translateY(300px);
     opacity: 0;
   }
   60% {

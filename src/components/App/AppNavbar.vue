@@ -39,7 +39,7 @@ export default {
           link: "/",
         },
         {
-          name: "Викторина",
+          name: "Угадай погоду",
           link: "/game",
         },
       ],
