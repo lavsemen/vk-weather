@@ -61,7 +61,7 @@ export default {
           const user  = await axios.get(GET_USER + login.value + '.json');
           
           if (user.data.login === login.value && user.data.password === password.value) {
-            store.commit("setUser", user.data.username);
+            store.commit("setUser", user.data);
             if (route.query.page) {
               router.push(`/${route.query.page}`)
             } else {

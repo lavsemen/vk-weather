@@ -133,7 +133,7 @@ export default {
             const sendData = await axios.patch(URL_USERS, {
               [login.value]: formData,
             });
-            store.commit("setUser", username.value);
+            store.commit("setUser", formData);
             if (route.query.page) {
               router.push(`/${route.query.page}`);
             } else {

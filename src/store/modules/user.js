@@ -6,12 +6,14 @@ export default {
   state: {
     isAuth: false,
     username: 'Гость',
+    login: '',
   }, 
   mutations: {
-    setUser(state, userName) {
+    setUser(state, user) {
       state.isAuth = true
-      state.username = userName
-      localStorage.setItem('auth', userName)
+      state.username = user.username
+      state.login = user.login
+      localStorage.setItem('auth', user.login)
     },
     logout(state) {
       state.isAuth = false,
@@ -24,8 +26,9 @@ export default {
       if (localStorage.getItem('auth')) {
         try {
           const res = await axios.get(GET_USER + localStorage.getItem('auth') + '.json')
+          const user = res.data
           if (res.status === 200) {
-            commit('setUser', localStorage.getItem('auth'))
+            commit('setUser', user)
           }
         } catch(err) {
           console.log(err);
@@ -41,6 +44,9 @@ export default {
     },
     getAuth(state) {
       return state.isAuth
+    },
+    getLogin(state) {
+      return state.login
     }
   }
 }
