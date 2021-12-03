@@ -4,10 +4,14 @@ import { GET_USER } from "../API/firebaseApi";
 async function saveScoreResult() {
   const login = store.getters.getLogin
   const score = store.getters.getScore
-
-  const updateScore = await axios.put(GET_USER + login + '/score' + '.json', score);
-
-  console.log(updateScore);
+  await axios.put(GET_USER + login + '/score' + '.json', score);
 }
 
-export {saveScoreResult};
+async function getSocreResult() {
+  const login = store.getters.getLogin
+  const score = await axios.get(GET_USER + login + '/score' + '.json');
+
+  store.commit('setScore', score.data);
+}
+
+export {saveScoreResult, getSocreResult};

@@ -16,15 +16,14 @@
           }"
           @click="chooseHandler(temp, idx)"
           v-for="(temp, idx) in randomTemp"
-          :key="temp + idx"
+          :key="temp + Math.random() * idx"
         >
           {{ temp }}&#176;С
         </div>
       </div>
     </div>
-    <app-loader v-else/>
+    <app-loader v-else />
   </div>
-
 </template>
 
 <script>
@@ -33,9 +32,8 @@ import { API_KEY } from "@/API/WeatherApi";
 import { onBeforeUnmount, onMounted, reactive, ref } from "vue";
 import store from "@/store";
 import { translateWord } from "@/utils/translate";
-import {saveScoreResult} from '@/utils/game'
-import AppLoader from '../App/AppLoader.vue';
-
+import { saveScoreResult, getSocreResult } from "@/utils/game";
+import AppLoader from "../App/AppLoader.vue";
 
 export default {
   components: { AppLoader },
@@ -110,11 +108,12 @@ export default {
     };
 
     onMounted(() => {
+      getSocreResult();
       getCity();
     });
     onBeforeUnmount(() => {
-      saveScoreResult()
-    })
+      saveScoreResult();
+    });
 
     return {
       city,

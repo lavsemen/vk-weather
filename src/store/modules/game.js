@@ -8,6 +8,9 @@ export default {
     },
     dicrementScore(state) {
       state.score--
+    },
+    setScore(state, score) {
+      state.score = score
     }
   },
   actions: {
