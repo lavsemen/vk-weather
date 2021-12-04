@@ -44,11 +44,10 @@ export default {
     const date = new Date().toLocaleDateString();
     const voiceActive = ref(false);
     const isLoading = ref(false);
-    const showErrorMessage = ref(false)
+    const showErrorMessage = ref(false);
     const fetchWeather = async () => {
       try {
         if (searchInput.value.length > 0) {
-          isLoading.value = true;
           const city = searchInput.value;
           const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`;
           const res = await axios.get(API_URL);
@@ -61,27 +60,36 @@ export default {
           cityInfo.temp = Math.round(res.data.main.temp);
           cityInfo.type = res.data.weather[0].main;
           cityValid.value = true;
-          isLoading.value = false;
+          return true;
         }
       } catch (err) {
         cityValid.value = false;
-        showErrorMessage.value = true
+        showErrorMessage.value = true;
+      }
+    };
+    const voiceUpdate = async (params) => {
+      isLoading.value = true;
+      voiceActive.value = params.voiceActive;
+      if (params.searchInput) {
+        searchInput.value = params.searchInput;
+        await fetchWeather();
         isLoading.value = false;
       }
     };
-    const voiceUpdate = (params) => {
-      voiceActive.value = params.voiceActive;
-      searchInput.value = params.searchInput;
-      fetchWeather();
-    };
-    const updateWather = (value) => {
+    const updateWather = async (value) => {
+      isLoading.value = true;
       searchInput.value = value;
-      fetchWeather();
+      await fetchWeather();
+      isLoading.value = false;
     };
 
-    const showError = computed(() => showErrorMessage.value && !isLoading.value)
-    const showTitle  = computed(() => !cityValid.value && !isLoading.value && !showErrorMessage.value)
-    const showInfo  = computed(() => cityValid.value && !isLoading.value)
+    const showError = computed(
+      () => showErrorMessage.value && !isLoading.value && !cityValid.value
+    );
+    const showTitle = computed(
+      () => !cityValid.value && !isLoading.value && !showErrorMessage.value
+    );
+    const showInfo = computed(() => cityValid.value && !isLoading.value);
 
     return {
       isLoading,
@@ -96,7 +104,7 @@ export default {
       voiceActive,
       showError,
       showTitle,
-      showInfo
+      showInfo,
     };
   },
 };

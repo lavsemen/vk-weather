@@ -93,9 +93,14 @@
     font-weight: 300;
   }
   &__info {
+    width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
+  }
+  &__chart {
+    background: #fff;
+    width: 100%;
   }
   &__temperature {
     padding: 20px;

@@ -49,7 +49,7 @@
 <script>
 import { onUpdated, ref } from "vue";
 export default {
-  emits: ["voiceAction", "action"],
+  emits: ["voiceAction", "action", 'startVoice'],
   props: {
     voiceActive: {
       type: Boolean,
